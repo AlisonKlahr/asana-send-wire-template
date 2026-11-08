@@ -1,0 +1,33 @@
+name: Asana Send Wire
+
+on:
+  schedule:
+    # Fridays at 06:00 and 07:00 UTC = 9am Israel in summer (IDT) / winter (IST).
+    # The script acts only in the run that is 9am in Israel, every other week from ANCHOR_DATE.
+    - cron: "0 6,7 * * 5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only show what would change"
+        type: boolean
+        default: true
+
+jobs:
+  send-wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Mark empty hours as Send Wire
+        env:
+          ASANA_PAT: ${{ secrets.ASANA_PAT }}
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+          # A payday Friday; runs on it and every 2 weeks after. Override with a repo variable.
+          ANCHOR_DATE: ${{ vars.ANCHOR_DATE || '2026-11-13' }}
+          TZ: Asia/Jerusalem
+          RUN_AT_HOUR: "9"
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: python asana_send_wire.py
