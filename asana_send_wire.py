@@ -1,5 +1,5 @@
 """
-Every pay period: in the Asana project "Aliza Time Clock", find logged-hours tasks
+Every pay period: in your Asana time clock project (PROJECT_NAME), find logged-hours tasks
 in the "Open Hours" section whose "SNA Hourly Payment Status" is empty, and set it
 to "Send Wire".
 
