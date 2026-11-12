@@ -26,6 +26,7 @@ jobs:
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           # A payday Friday; runs on it and every 2 weeks after. Override with a repo variable.
           ANCHOR_DATE: ${{ vars.ANCHOR_DATE || '2026-11-13' }}
+          ASSIGNEE: ${{ vars.ASSIGNEE || 'Barry' }}
           TZ: Asia/Jerusalem
           RUN_AT_HOUR: "9"
           FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' }}
