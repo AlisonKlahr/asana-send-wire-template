@@ -2,10 +2,11 @@ name: Asana Send Wire
 
 on:
   schedule:
-    # Fridays at 06:00, 07:00, 09:00 and 12:00 UTC. 06:00/07:00 = 9am Israel in summer/winter;
+    # Fridays at 06:17, 07:17, 09:17 and 12:17 UTC. 06:17/07:17 = 9:17am Israel in summer/winter;
     # the later times are backups because GitHub can start scheduled runs hours late or skip them.
+    # Off the hour on purpose: GitHub is busiest at :00, so those runs are delayed most.
     # The script acts only from 9am Israel time, every other week from ANCHOR_DATE.
-    - cron: "0 6,7,9,12 * * 5"
+    - cron: "17 6,7,9,12 * * 5"
   workflow_dispatch:
     inputs:
       dry_run:
