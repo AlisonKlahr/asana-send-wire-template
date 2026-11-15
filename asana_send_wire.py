@@ -84,10 +84,11 @@ def is_off_week():
     anchor = os.environ.get("ANCHOR_DATE")  # e.g. 2026-11-13, a payday
     if os.environ.get("FORCE_RUN") == "true":
         return False
-    # GitHub only schedules in UTC, so it fires at two UTC hours; act only in the
-    # one that is RUN_AT_HOUR local time (handles Israel's summer/winter clock change).
+    # GitHub schedules in UTC and often starts hours late or drops a run, so it fires
+    # several times on Friday. Act on any of them from RUN_AT_HOUR local time onward;
+    # extra runs the same day are harmless because they only touch tasks still pending.
     hour = os.environ.get("RUN_AT_HOUR")
-    if hour and datetime.now().hour != int(hour):
+    if hour and datetime.now().hour < int(hour):
         return True
     if not anchor:
         return False
